@@ -1,6 +1,20 @@
 {{ form_start(form,{attr:{'data-controller': 'form-errors'}}) }}
+
+<div id="flash-messages" data-controller="flash">
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }}" style="margin-top: 100px;">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+</div>
+
 <div class="row">
-    <div class="col-12 mt-3">{{ form_row(form.nom) }}</div>
+    <div class="col-12 mt-3">
+        {{ form_label(form.nom) }}
+        {{ form_widget(form.nom) }}
+    </div>
     <div class="col-12 mt-5 text-end">
         {{ form_widget(form) }}
         <a href="{{ absolute_url(path('app_marque_index')) }}" class="btn btn-outline-success">Annuler</a>

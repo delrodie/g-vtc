@@ -34,12 +34,12 @@ final class MarqueController extends AbstractController
                 $entityManager->persist($marque);
                 $entityManager->flush();
 
-                notyf()->success("La marque a été enregistrée avec succès!");
+                $this->addFlash('success', "Marque ajoutée avec succès!");
 
                 return $this->redirectToRoute('app_marque_index', [], Response::HTTP_SEE_OTHER);
             }else{
                 foreach ($form->getErrors(true) as $error) {
-                    notyf()->error($error->getMessage());
+                    $this->addFlash('danger', $error->getMessage());
                 }
             }
         }

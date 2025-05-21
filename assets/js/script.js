@@ -16,3 +16,7 @@ window.addEventListener("resize", adjustMainMargin);
 document.addEventListener("turbo:load", function () {
     adjustMainMargin();
 });
+document.addEventListener("turbo:submit-end", function () {
+    adjustMainMargin();
+    console.log('Apres submit')
+})

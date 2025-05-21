@@ -14,12 +14,12 @@
 
 
     <div class="table-responsive mt-5">
-        <table class="table table-stripped table-hover">
+        <table class="table table-striped table-hover">
             <thead>
             <tr>
-                <th>ID</th>
-                <th>NOM</th>
-                <th>ACTIONS</th>
+                <th class="text-center">ID</th>
+                <th class="text-center">NOM</th>
+                <th class="text-center">ACTIONS</th>
             </tr>
             </thead>
             <tbody>
@@ -27,8 +27,8 @@
                 <tr>
                     <td>{{ loop.index }}</td>
                     <td>{{ marque.nom }}</td>
-                    <td>
-                        <a href="{{ path('app_marque_edit', {'id': marque.slug}) }}">
+                    <td class="text-center">
+                        <a href="{{ path('app_marque_edit', {'id': marque.id}) }}">
                             <i class="bi bi-pencil-square"></i>
                         </a>
                     </td>
