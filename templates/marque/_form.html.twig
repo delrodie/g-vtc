@@ -1,0 +1,10 @@
+{{ form_start(form) }}
+<div class="row">
+    <div class="col-12 mt-3">{{ form_row(form.nom) }}</div>
+    <div class="col-12 mt-5 text-end">
+        {{ form_widget(form) }}
+        <a href="{{ absolute_url(path('app_marque_index')) }}" class="btn btn-outline-success">Annuler</a>
+        <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
+    </div>
+</div>
+{{ form_end(form) }}

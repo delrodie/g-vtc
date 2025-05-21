@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block extra_title %}Modification de la Marque{% endblock %}
+
+{% block body %}
+    <div class="text-end mt-3">
+        <a href="{{ absolute_url(path('app_marque_index')) }}" class="text-success fw-semibold fst-italic"><i class="bi bi-list-ul"></i> Voir la
+            liste...</a>
+    </div>
+
+    <h4 class="page-title">Modification de la marque</h4>
+
+    {{ include('marque/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+    {{ include('marque/_delete_form.html.twig') }}
+{% endblock %}

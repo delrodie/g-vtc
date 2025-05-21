@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block extra_title %}Liste des marques{% endblock %}
+
+{% block body %}
+    <div class="text-end mt-3">
+        {% if marques is defined and marques|length > 0 %}
+            <a href="{{ path('app_export_excel', {'type': 'marque'}) }}" class="btn btn-outline-success btn-sm">
+                <i class="bi bi-file-earmark-excel"></i> Exporter
+            </a>
+        {% endif %}
+        <a href="{{ absolute_url(path('app_marque_new')) }}" class="btn btn-success btn-sm"><i class="bi bi-plus-circle"></i> Ajouter une marque</a>
+    </div>
+
+
+    <div class="table-responsive mt-5">
+        <table class="table table-stripped table-hover">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>NOM</th>
+                <th>ACTIONS</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for marque in marques %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ marque.nom }}</td>
+                    <td>
+                        <a href="{{ path('app_marque_edit', {'id': marque.slug}) }}">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td class="text-center fs-italic" colspan="3">Aucune marque enregistrée</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
