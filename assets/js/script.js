@@ -12,3 +12,7 @@ window.addEventListener("load", adjustMainMargin);
 
 // Réajuste si la fenêtre est redimensionnée
 window.addEventListener("resize", adjustMainMargin);
+
+document.addEventListener("turbo:load", function () {
+    adjustMainMargin();
+});
