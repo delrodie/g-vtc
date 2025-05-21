@@ -1,3 +1,454 @@
-body {
-    background-color: skyblue;
+/*****
+  Website: G-VTC
+  Description: Application de gestion de la flotte VTC
+  Author: Delrodie AMOIKON
+  Support: delrodieamoikon@gmail.com
+  Version: 1.0.0
+*****/
+@import url("https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css");
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+:root {
+  --color-gwhite: #fff;
+  --color-glight90: #e8f4f1;
+  --color-glight70: #cee5cb;
+  --color-glight40: #9aca94;
+  --color-main: #5dab53;
+  --color-gdark30: #199676;
+  --color-gdark60: #0a3c2f;
+  --font-familly: "Inter",
+      sans-serif;
 }
+
+body {
+  background-color: var(--color-glight90);
+  font-family: var(--font-familly);
+}
+
+a {
+  text-decoration: none;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.icon::before {
+  font-family: "bootstrap-icons";
+  color: var(--color-white);
+  margin-right: 8px;
+  font-size: 1rem;
+  vertical-align: middle;
+}
+.icon.g-logo::before {
+  content: "\f7e0";
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+header {
+  padding: 25px 0;
+  background: var(--color-gdark30);
+  width: 100%;
+  max-width: 800px;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  position: fixed;
+  z-index: 10;
+}
+@media screen and (min-width: 801px) {
+  header {
+    max-width: 600px;
+  }
+}
+header .g-logo {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--color-gwhite);
+}
+header .btn {
+  background: transparent !important;
+  padding: 0 5px 0;
+}
+header .btn i {
+  font-size: 1.5rem;
+  color: var(--color-glight70);
+}
+header .icons {
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+}
+header .icons .p-2 {
+  padding: 0.25rem !important;
+  margin-left: -7px;
+}
+header .icons .dropdown-menu {
+  background: var(--color-glight90) !important;
+  border-radius: 0;
+}
+header .icons i {
+  font-size: 1.5rem;
+  color: var(--color-glight70);
+  margin-right: 5px;
+  margin-left: 5px;
+}
+header .search {
+  max-width: 60%;
+  margin: 20px auto;
+}
+header .search .form-control {
+  background: rgba(255, 255, 255, 0.5) !important;
+  border-radius: 0;
+  border: solid 1px rgba(255, 255, 255, 0.2);
+}
+header .search .btn-o-search {
+  border: solid 1px rgba(255, 255, 255, 0.2);
+}
+@media screen and (max-width: 360px) {
+  header .search {
+    max-width: 90%;
+  }
+}
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 800px;
+  border: solid 1px rgba(154, 202, 148, 0.5);
+  box-shadow: 1px 10px 10px 10px rgba(10, 60, 47, 0.05);
+}
+@media screen and (min-width: 801px) {
+  .container {
+    max-width: 600px;
+  }
+}
+
+.offcanvas {
+  max-width: 80%;
+}
+.offcanvas a {
+  color: var(--color-gdark30);
+  font-weight: 600;
+}
+.offcanvas a:hover {
+  color: var(--color-gdark60);
+}
+.offcanvas .nav-item {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  border-bottom: dotted 1px rgba(10, 60, 47, 0.3);
+  transition: all 500ms ease-in-out;
+}
+.offcanvas .nav-item:hover {
+  background: var(--color-glight70);
+  color: var(--color-gdark60);
+}
+.offcanvas .nav-item:hover .collapse {
+  background: var(--color-white);
+}
+.offcanvas .nav-item .collapse {
+  padding-left: 20px;
+}
+.offcanvas .nav-item .collapse:hover {
+  background: var(--color-gwhite);
+}
+.offcanvas .nav-item .collapse:hover .nav-item {
+  background: var(--color-gwhite);
+}
+.offcanvas .nav-item i {
+  font-size: 1.3rem;
+  color: var(--color-gdark60);
+  margin-right: 10px;
+  font-weight: 700;
+}
+.offcanvas-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.offcanvas-body .deconnexion {
+  background: var(--color-glight70);
+  padding: 3px 0;
+}
+
+main .section {
+  margin-bottom: 50px;
+}
+main .section-head {
+  margin-bottom: 10px;
+}
+main .section-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-gdark60);
+}
+main .section-link {
+  font-weight: 600;
+  color: var(--color-gdark60);
+  font-style: italic;
+}
+main .section-link:hover {
+  color: var(--color-gdark30);
+}
+main .flot-cars .card {
+  padding: 0;
+  border: solid 1px rgba(10, 60, 47, 0.2);
+  background: rgba(255, 255, 255, 0.5);
+}
+main .flot-cars .card:hover {
+  background: var(--color-gwhite);
+}
+main .flot-cars .card-body {
+  padding: 0;
+}
+main .flot-cars .card-footer {
+  font-weight: 700;
+  color: var(--color-gdark60);
+  text-transform: uppercase;
+  padding: 3px 2px;
+  font-size: 0.85rem;
+}
+main .statistiques .card {
+  border: solid 1px rgba(10, 60, 47, 0.3);
+  border-bottom: solid 5px rgba(10, 60, 47, 0.8);
+}
+main .statistiques .valeur {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-gdark60);
+}
+main .statistiques .valeur span {
+  font-size: 0.8rem;
+}
+main .statistiques .icon {
+  background: rgba(10, 60, 47, 0.3);
+  border-radius: 100%;
+  padding: 2px;
+  width: 35px;
+  height: 35px;
+}
+main .statistiques label {
+  font-weight: 600;
+  color: var(--color-gdark30);
+}
+main .statistiques .details {
+  font-weight: 800;
+  color: var(--color-gdark60);
+  font-size: 1.3rem;
+}
+main .car .card {
+  border-bottom: solid 7px rgba(10, 60, 47, 0.8);
+}
+main .car .card h5 {
+  margin: 0;
+  padding: 0;
+  font-weight: 700;
+  color: var(--color-gdark60);
+}
+main .car-img {
+  background: rgba(10, 60, 47, 0.5);
+  border-radius: 100%;
+}
+main .car-img i {
+  font-size: 5.5em;
+}
+main .pagination {
+  --bs-pagination-color: var(--color-gdark30) ;
+}
+main .page-item {
+  margin: 3px;
+}
+main .page-link {
+  border-radius: 100%;
+}
+main .page-title {
+  margin-top: 30px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-gdark60);
+}
+main .page-details {
+  margin-top: 100px;
+}
+main .page-illustration {
+  margin: 0;
+  padding: 0;
+}
+main .page-illustration span {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 60, 47, 0.35);
+  border-radius: 100%;
+  font-size: 2.5rem;
+  margin-top: -50px;
+}
+main .page-legend {
+  margin: 0;
+  padding: 0;
+}
+main .page-legend .page-title {
+  margin: 5px 0 0;
+  padding: 0;
+}
+main .page-legend small {
+  font-weight: 600;
+}
+main .page-finances {
+  margin-bottom: 20px;
+}
+main .page-finances .montant {
+  padding: 0;
+  margin: 0;
+  font-weight: 700;
+  color: var(--color-gdark30);
+}
+main .page-finances small {
+  font-weight: 600;
+}
+main .page .card.page-details {
+  border: solid 1px rgba(10, 60, 47, 0.25);
+}
+main .page-recap {
+  margin-bottom: 100px;
+}
+main .page-recap .total {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-gdark60);
+  border-top: dotted 1px #000;
+  padding-top: 10px;
+}
+main .page-recap .value {
+  font-weight: 500;
+}
+main .page-chauffeur .avatar-nom {
+  font-weight: 700;
+  color: var(--color-gdark60);
+  padding: 0;
+  margin: 0;
+}
+main .page-chauffeur .avatar-telephone {
+  margin: 0;
+}
+main .page-chauffeur .avatar span {
+  width: 50px;
+  height: 50px;
+  background: rgba(10, 60, 47, 0.35);
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  margin-right: 10px;
+}
+main .page-chauffeur .contact a {
+  color: var(--color-gdark60);
+  font-weight: 600;
+  font-size: 1.3rem;
+  margin: 0 3px;
+}
+main .page-chauffeur .vehicule {
+  margin-top: 15px;
+}
+main .page-chauffeur .vehicule .info .immatriculation {
+  padding: 0;
+  margin: 0;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+main .page-chauffeur .vehicule .info .marque {
+  margin: 0;
+  padding: 0;
+  font-size: 0.8rem;
+}
+main .page-chauffeur .vehicule .link a {
+  color: var(--color-gdark30);
+  font-weight: 600;
+}
+main .page .details-vehicule {
+  background: rgba(10, 60, 47, 0.2);
+  margin: 10px;
+}
+main .page .details-vehicule .marque {
+  font-size: 0.85rem;
+}
+main .page .details-vehicule .immatriculation {
+  font-weight: 700;
+  color: var(--color-gdark60);
+}
+main .page .details-vehicule span {
+  background: rgba(255, 255, 255, 0.5);
+  padding: 0.85rem;
+  border-radius: 100%;
+  font-size: 1.8rem;
+}
+main .page .list-group {
+  margin-bottom: 100px;
+}
+main .page .list-group-item {
+  padding: 12px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+main .page .list-group-item small {
+  font-size: 0.85rem;
+}
+main .page .list-group-item span {
+  font-size: 0.85rem;
+}
+main .portefeuille .recette-car {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+main .portefeuille .recette-car span {
+  background: rgba(10, 60, 47, 0.2);
+  border-radius: 100%;
+  font-size: 1.8rem;
+  padding: 0.3rem 0.6rem;
+}
+main .portefeuille .recette-car .immatriculation {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-gdark60);
+  margin: 0;
+  padding: 0;
+}
+main .portefeuille .recette-valeur {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-gdark30);
+}
+main .connexion {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+footer {
+  background: var(--color-gwhite);
+  padding: 10px 10px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  max-width: 600px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: solid 1px rgba(154, 202, 148, 0.5);
+}
+footer a {
+  font-size: 1.7rem;
+  color: var(--color-gdark60);
+}/*# sourceMappingURL=app.css.map */
