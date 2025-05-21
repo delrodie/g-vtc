@@ -9,6 +9,15 @@
     </div>
 
     <h4 class="page-title">Enregistrement des marques</h4>
-
+    {% for field in form %}
+        {% if field.vars.errors|length > 0 %}
+            <div class="alert alert-danger">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>Echèc!</strong> {{ field.vars.errors|first.message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
     {{ include('marque/_form.html.twig') }}
 {% endblock %}

@@ -29,11 +29,19 @@ final class MarqueController extends AbstractController
         $form = $this->createForm(MarqueForm::class, $marque);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($marque);
-            $entityManager->flush();
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $entityManager->persist($marque);
+                $entityManager->flush();
 
-            return $this->redirectToRoute('app_marque_index', [], Response::HTTP_SEE_OTHER);
+                notyf()->success("La marque a été enregistrée avec succès!");
+
+                return $this->redirectToRoute('app_marque_index', [], Response::HTTP_SEE_OTHER);
+            }else{
+                foreach ($form->getErrors(true) as $error) {
+                    notyf()->error($error->getMessage());
+                }
+            }
         }
 
         return $this->render('marque/new.html.twig', [
