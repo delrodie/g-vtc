@@ -4,8 +4,12 @@ namespace App\Entity;
 
 use App\Repository\VehiculeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 #[ORM\Entity(repositoryClass: VehiculeRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#[UniqueEntity(fields: ['immatriculation'], message: "Ce vehicule a déjà été ajouté")]
 class Vehicule
 {
     #[ORM\Id]
@@ -76,5 +80,15 @@ class Vehicule
         $this->slug = $slug;
 
         return $this;
+    }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function generateSlug(): void
+    {
+        if ($this->immatriculation){
+            $slugger = new AsciiSlugger();
+            $this->slug = strtolower($slugger->slug($this->immatriculation)->toString());
+        }
     }
 }

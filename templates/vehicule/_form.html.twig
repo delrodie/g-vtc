@@ -1,4 +1,33 @@
 {{ form_start(form, {'attr':{'data-controller':'form-errors'}}) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Enrgistrer') }}</button>
+
+<div id="flash-messages" data-controller="flash">
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }}" style="margin-top: 100px;">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+</div>
+
+<div class="row form-group">
+    <div class="col-12 mt-3">
+        {{ form_label(form.marque) }}
+        {{ form_widget(form.marque) }}
+    </div>
+    <div class="col-12 mt-3">
+        {{ form_label(form.immatriculation) }}
+        {{ form_widget(form.immatriculation) }}
+    </div>
+    <div class="col-12 mt-3">
+        {{ form_label(form.couleur) }}
+        {{ form_widget(form.couleur) }}
+    </div>
+    <div class="col-12 text-end mt-5">
+        {{ form_widget(form) }}
+        <a href="{{ absolute_url(path('app_vehicule_index')) }}" class="btn btn-outline-success">Annuler</a>
+        <button class="btn btn-success">{{ button_label|default('Enrgistrer') }}</button>
+    </div>
+</div>
+
 {{ form_end(form) }}

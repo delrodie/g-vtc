@@ -5,20 +5,28 @@ namespace App\Controller;
 use App\Entity\Vehicule;
 use App\Form\VehiculeForm;
 use App\Repository\VehiculeRepository;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/vehicule')]
 final class VehiculeController extends AbstractController
 {
+    public function __construct(
+        private VehiculeRepository $vehiculeRepository
+    )
+    {
+    }
+
     #[Route(name: 'app_vehicule_index', methods: ['GET'])]
     public function index(VehiculeRepository $vehiculeRepository): Response
     {
         return $this->render('vehicule/index.html.twig', [
-            'vehicules' => $vehiculeRepository->findAll(),
+            'vehicules' => $vehiculeRepository->getAllVehicule(),
         ]);
     }
 
@@ -29,11 +37,19 @@ final class VehiculeController extends AbstractController
         $form = $this->createForm(VehiculeForm::class, $vehicule);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($vehicule);
-            $entityManager->flush();
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $entityManager->persist($vehicule);
+                $entityManager->flush();
 
-            return $this->redirectToRoute('app_vehicule_index', [], Response::HTTP_SEE_OTHER);
+                $this->addFlash("success", "Le vehicule immatriculé {$vehicule->getImmatriculation()} a été ajouté avec succès!");
+
+                return $this->redirectToRoute('app_vehicule_index', [], Response::HTTP_SEE_OTHER);
+            }else{
+                foreach ($form->getErrors(true) as $error) {
+                    $this->addFlash('danger', $error->getMessage());
+                }
+            }
         }
 
         return $this->render('vehicule/new.html.twig', [
@@ -42,24 +58,34 @@ final class VehiculeController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_vehicule_show', methods: ['GET'])]
-    public function show(Vehicule $vehicule): Response
+    #[Route('/{slug}', name: 'app_vehicule_show', methods: ['GET'])]
+    public function show($slug): Response
     {
+
         return $this->render('vehicule/show.html.twig', [
-            'vehicule' => $vehicule,
+            'vehicule' => $this->getVehicule($slug),
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_vehicule_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Vehicule $vehicule, EntityManagerInterface $entityManager): Response
+    #[Route('/{slug}/edit', name: 'app_vehicule_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, $slug, EntityManagerInterface $entityManager): Response
     {
+        $vehicule = $this->getVehicule($slug);
         $form = $this->createForm(VehiculeForm::class, $vehicule);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+        if ($form->isSubmitted()) {
+            if ($form->isValid()){
+                $entityManager->flush();
 
-            return $this->redirectToRoute('app_vehicule_index', [], Response::HTTP_SEE_OTHER);
+                $this->addFlash("info", "Le vehicule immatriculé {$vehicule->getImmatriculation()} a été modifié avec succès!");
+                return $this->redirectToRoute('app_vehicule_index', [], Response::HTTP_SEE_OTHER);
+            } else{
+                foreach ($form->getErrors(true) as $error) {
+                    $this->addFlash('danger', $error->getMessage());
+                }
+            }
+
         }
 
         return $this->render('vehicule/edit.html.twig', [
@@ -77,5 +103,14 @@ final class VehiculeController extends AbstractController
         }
 
         return $this->redirectToRoute('app_vehicule_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    private function getVehicule($slug)
+    {
+        $vehicule = $this->vehiculeRepository->getVehiculeBySlug($slug);
+        if (!$vehicule) {
+            throw new NotFoundHttpException("Aucun vehicule trouvé!");
+        }
+        return $vehicule;
     }
 }

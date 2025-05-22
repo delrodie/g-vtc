@@ -27,7 +27,8 @@ class VehiculeForm extends AbstractType
 //            ->add('slug')
             ->add('marque', EntityType::class, [
                 'class' => Marque::class,
-                'choice_label' => 'id',
+                'choice_label' => 'nom',
+                'autocomplete' => true
             ])
         ;
     }

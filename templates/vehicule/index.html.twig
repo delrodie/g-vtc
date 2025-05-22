@@ -8,8 +8,19 @@
             véhicule...</a>
     </div>
 
+    <div id="flash-messages" data-controller="flash">
+        {% for type, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ type }}  alert-dismissible fade show" role="alert" style="margin-top: 50px;">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+
     <div class="row row-cols-1 row-cols-sm-2 g-4 car mt-3 mb-5">
-        {% for vehivule in vehicules %}
+        {% for vehicule in vehicules %}
             <div class="col">
                 <div class="card h-100">
                     <div class="card-body p-2" style="margin: 0; padding:0;">
@@ -20,18 +31,18 @@
                             </div>
                             <div class="col-5 text-center">
                                 <a href="{{ absolute_url(path('app_vehicule_show',{"slug": vehicule.slug})) }}">
-                                        <span class="car-img flex-shrink-0" style="color: rgb(179, 161, 5);"><i
+                                        <span class="car-img flex-shrink-0" style="color: {{ vehicule.couleur }};"><i
                                                 class="bi bi-car-front-fill"></i></span>
                                 </a>
                             </div>
                         </div>
                         <div class="row row-cols-2 text-center finances">
                             <div class="col">
-                                <small>Recettes </small><span class="badge text-bg-secondary value">1350K</span>
+                                <small>Rec. </small><span class="badge text-bg-secondary value">1350K</span>
 
                             </div>
                             <div class="col">
-                                <small>Dépenses</small> <span class="badge text-bg-secondary">750K</span>
+                                <small>Dép.</small> <span class="badge text-bg-secondary">750K</span>
 
                             </div>
                         </div>
