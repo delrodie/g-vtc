@@ -28,6 +28,9 @@ class Conduire
     #[ORM\ManyToOne]
     private ?Vehicule $vehicule = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $dateFinAt = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,6 +92,18 @@ class Conduire
     public function setVehicule(?Vehicule $vehicule): static
     {
         $this->vehicule = $vehicule;
+
+        return $this;
+    }
+
+    public function getDateFinAt(): ?\DateTimeImmutable
+    {
+        return $this->dateFinAt;
+    }
+
+    public function setDateFinAt(?\DateTimeImmutable $dateFinAt): static
+    {
+        $this->dateFinAt = $dateFinAt;
 
         return $this;
     }

@@ -3,11 +3,14 @@
 {% block title %}Edit Chauffeur{% endblock %}
 
 {% block body %}
-    <h1>Edit Chauffeur</h1>
+    <div class="text-end mt-5">
+        <a href="{{ absolute_url(path('app_chauffeur_index')) }}" class="btn btn-outline-success btn-sm">
+            <i class="bi bi-arrow-90deg-left"></i> Retour à liste
+        </a>
+    </div>
 
-    {{ include('chauffeur/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_chauffeur_index') }}">back to list</a>
-
-    {{ include('chauffeur/_delete_form.html.twig') }}
+    <h4 class="page-title">Modification</h4>
+    {{ include('chauffeur/_form.html.twig', {'button_label': 'Modifier'}) }}
 {% endblock %}
+
+{#{{ include('chauffeur/_delete_form.html.twig') }}#}

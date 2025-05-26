@@ -60,7 +60,9 @@ final class ChauffeurController extends AbstractController
 
                 $this->addFlash("success", "Chauffeur ajouté avec succès!");
 
-                return $this->redirectToRoute('app_chauffeur_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_chauffeur_show', [
+                    'id' => $chauffeur->getId()
+                ], Response::HTTP_SEE_OTHER);
             }else{
                 foreach ($form->getErrors(true) as $error) {
                     $this->addFlash('danger', $error->getMessage());
@@ -81,7 +83,8 @@ final class ChauffeurController extends AbstractController
         //dd($vehicule);
         return $this->render('chauffeur/show.html.twig', [
             'chauffeur' => $chauffeur,
-            'conduire' => $conduire
+            'conduire' => $conduire,
+            'historiques' => $this->repositoriesService->getAllVehiculesByChauffeur($chauffeur->getId())
         ]);
     }
 
@@ -137,15 +140,19 @@ final class ChauffeurController extends AbstractController
                             if ($nouvelleAttribution->isStatut() === false){
                                 $vehicule = $nouvelleAttribution->getVehicule();
                                 $vehicule->setOccupe(false);
+                                $nouvelleAttribution->setDateFinAt(new \DateTimeImmutable());
                                 $entityManager->persist($vehicule);
+                                $entityManager->persist($nouvelleAttribution);
                             }
                         }
                     }else{
                         // Verification du statut du nouveau vehicule
                         $vehicule = $nouvelleAttribution->getVehicule();
                         if ($vehicule->isOccupe() === true ){
-                            $this->addFlash('danger', "Echec, Le vehicule {$vehicule->getImmatriculation()} est déjà occupé par un autre chauffeur");
-                            return $this->redirectToRoute('app_chauffeur_new');
+                            $this->addFlash('danger', "Echec, Le vehicule {$vehicule->getImmatriculation()} est déjà occupé par un autre chauffeur. Veuillez reprendre l'enregistrement");
+                            return $this->redirectToRoute('app_chauffeur_edit',[
+                                'id' => $chauffeur->getId()
+                            ]);
                         }
 
                         $vehicule->setOccupe(true);
@@ -158,7 +165,9 @@ final class ChauffeurController extends AbstractController
 
                 $this->addFlash("success", "Chauffeur ajouté avec succès!");
 
-                return $this->redirectToRoute('app_chauffeur_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_chauffeur_show', [
+                    'id' => $chauffeur->getId()
+                ], Response::HTTP_SEE_OTHER);
             }else{
                 foreach ($form->getErrors(true) as $error) {
                     $this->addFlash('danger', $error->getMessage());

@@ -30,13 +30,28 @@ class ConduireRepository extends ServiceEntityRepository
             ->getQuery()->getOneOrNullResult();
     }
 
+    public function findAllVehiculeConduitsByChauffeur($chauffeur)
+    {
+        return $this->queryJoin()
+            ->where('f.id = :id')
+            ->andWhere('c.statut = :statut')
+            ->setParameters(new ArrayCollection([
+                new Parameter('id', $chauffeur),
+                new Parameter('statut', false)
+            ]))
+            ->getQuery()->getResult();
+    }
+
     public function queryJoin()
     {
         return $this->createQueryBuilder('c')
             ->addSelect('v')
             ->addSelect('f')
+            ->addSelect('m')
             ->leftJoin('c.vehicule', 'v')
-            ->leftJoin('c.chauffeur', 'f');
+            ->leftJoin('c.chauffeur', 'f')
+            ->leftJoin('v.marque', 'm')
+            ;
     }
 
     //    /**

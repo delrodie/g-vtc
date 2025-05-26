@@ -16,4 +16,9 @@ class RepositoriesService
     {
         return $this->conduireRepository->findVehiculeByChauffeur($chauffeurId);
     }
+
+    public function getAllVehiculesByChauffeur(?int $chauffeur)
+    {
+        return $this->conduireRepository->findAllVehiculeConduitsByChauffeur($chauffeur);
+    }
 }

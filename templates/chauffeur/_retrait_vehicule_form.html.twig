@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('app_vehicule_retirer', {'id': conduire.id}) }}" onsubmit="return confirm('Voulez-vous vraiment retirer le vehicule au chauffeur?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('retrait' ~ conduire.id) }}">
+    <button class="btn btn-danger btn-sm">Retrait du véhicule</button>
+</form>
