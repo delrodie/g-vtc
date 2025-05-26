@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block extra_title %}Liste des chauffeurs{% endblock %}
+
+{% block body %}
+    <div class="text-end mt-5">
+        <a href="{{ absolute_url(path('app_chauffeur_new')) }}" class="btn btn-success btn-sm"><i
+                class="bi bi-plus-circle"></i> Ajouter un chauffeur</a>
+    </div>
+
+    <div class="page">
+        <div class="row row-cols-1 row-cols-sm-2 g-4 car mt-3 mb-5 page-chauffeur">
+            {% for chauffeur in chauffeurs %}
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="identite d-flex justify-content-between align-items-center">
+                                <div class="avatar d-flex justify-content-center align-items-center">
+                                        <span>
+                                            <i class="bi bi-person-circle"></i>
+                                        </span>
+                                    <div>
+                                        <h6 class="avatar-nom">{{ chauffeur.nom }}</h6>
+                                        <p class="avatar-telephone">{{ chauffeur.telephone }}</p>
+                                    </div>
+                                </div>
+                                <div class="contact">
+                                    <span><a href="#" class="contact-link"><i class="bi bi-wechat"></i></a></span>
+
+                                    <span><a href="#" class="contact-link"><i
+                                                class="bi bi-telephone-fill"></i></a></span>
+
+                                </div>
+                            </div>
+
+                            <div class="vehicule d-flex justify-content-between align-items-center">
+                                {{ render('vehicule-attribue/' ~ chauffeur.id) }}
+                                <div class="link">
+                                    <a href="{{ absolute_url(path('app_chauffeur_show',{"id": chauffeur.id})) }}">Details</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title fst-italic">Aucun chauffeur enregisté</h5>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+{% endblock %}

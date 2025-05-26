@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block extra_title %}Chauffeur{% endblock %}
+
+{% block body %}
+    <div class="text-end">
+        <a href="{{ absolute_url(path('app_chauffeur_index')) }}" class="text-success fw-semibold fst-italic"><i class="bi bi-list-ul"></i> Voir
+            la liste...</a>
+    </div>
+
+    <div class="page">
+        <div class="card page-details">
+            <div class="card-body" style="padding:0; margin:0">
+                <div
+                    class="page-illustration d-flex align-content-center align-item-center justify-content-center">
+                    <span><i class="bi bi-person-circle"></i></span>
+                </div>
+
+                <div class="page-legend d-flex justify-content-center">
+                    <div class="text-center">
+                        <h4 class="page-title">{{ chauffeur.nom }}</h4>
+                        <small>{{ chauffeur.telephone }}</small>
+                    </div>
+                </div>
+
+                <div class="row mt-3 page-finances">
+                    <div class="col-6 text-center" title="Recette globale">
+                        <h5 class="montant">1350K</h5>
+                        <small>Versements</small>
+                    </div>
+                    <div class="col-6 text-center">
+                        <h5 class="montant">325K</h5>
+                        <small>Depenses</small>
+                    </div>
+                </div>
+
+
+                <div class="details-vehicule d-flex justify-content-between align-items-center mt-3 p-3">
+                    {% if conduire %}
+                    <div class="infos">
+                        <div class="marque">{{ conduire ? conduire.vehicule.marque.nom }}</div>
+                        <div class="immatriculation">{{ conduire ? conduire.vehicule.immatriculation }}</div>
+                    </div>
+                    <div class="car">
+                        <span style="color: {{ conduire ? conduire.vehicule.couleur }};"><i class="bi bi-car-front-fill"></i></span>
+                    </div>
+                    {% else %}
+                        <div class="infos text-center fst-italic">Aucun vehicule attribué a ce chauffeur </div>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+
+        <div class="list-group mt-5">
+            <button type="button" class="list-group-item list-group-item-action">
+                <small class="text-muted">Nom & prenoms: </small>
+                <span class="fw-semibold">{{ chauffeur.nom }}</span>
+            </button>
+            <button type="button" class="list-group-item list-group-item-action">
+                <small class="text-muted">Telephone:</small>
+                <span class="fw-semibold">{{ chauffeur.telephone }}</span>
+            </button>
+            <button type="button" class="list-group-item list-group-item-action">
+                <small class="text-muted">Permis de conduire:</small>
+                <span class="fw-semibold">{{ chauffeur.permis }}</span>
+            </button>
+            <button type="button" class="list-group-item list-group-item-action">
+                <small class="text-muted">Date début:</small>
+                <span class="fw-semibold">{{ conduire ? conduire.dateDebutAt|date('d/m/Y') }}</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="action-links mb-5 d-flex justify-content-end align-items-center g-2">
+        {{ include('chauffeur/_delete_form.html.twig') }}
+        <a href="{{ path('app_chauffeur_index') }}" class="btn btn-outline-success btn-sm ms-2"><i class="bi bi-list-ul"></i> Liste</a>
+        <a href="{{ path('app_chauffeur_edit', {'id': chauffeur.id}) }}" class="btn btn-success btn-sm ms-2">Modifier</a>
+    </div>
+
+
+
+{% endblock %}

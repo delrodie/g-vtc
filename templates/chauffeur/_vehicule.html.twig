@@ -1,0 +1,11 @@
+<div class="info">
+    <div class="immatriculation">{{ conduire ? conduire.vehicule.immatriculation }}</div>
+    <div class="marque">
+        {% if conduire %}
+            {{ conduire.vehicule.marque.nom }}
+        {% else %}
+            <span class="badge bg-danger fw-700 fst-italic">Aucun vehicule</span>
+        {% endif %}
+    </div>
+</div>
+

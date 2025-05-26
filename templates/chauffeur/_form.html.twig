@@ -1,0 +1,50 @@
+{{ form_start(form, {'attr':{'data-controller':'form-errors'}}) }}
+<div id="flash-messages" data-controller="flash">
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }}" style="margin-top: 100px;">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+</div>
+<div class="row form-group">
+    <div class="col-12 mt-3">
+        {{ form_label(form.nom) }}
+        {{ form_widget(form.nom) }}
+    </div>
+    <div class="col-12 mt-3">
+        {{ form_label(form.telephone) }}
+        {{ form_widget(form.telephone) }}
+    </div>
+    <div class="col-12 mt-3">
+        {{ form_label(form.permis) }}
+        {{ form_widget(form.permis) }}
+    </div>
+    <div class="col-12 mt-4">
+        {{ form_label(form.nouvelleAttribution) }}
+    </div>
+    <div class="col-12 mt-3">
+        {{ form_label(form.nouvelleAttribution.vehicule) }}
+        {{ form_widget(form.nouvelleAttribution.vehicule) }}
+    </div>
+    <div class="col-12 mt-3">
+        {{ form_label(form.nouvelleAttribution.dateDebutAt) }}
+        {{ form_widget(form.nouvelleAttribution.dateDebutAt) }}
+    </div>
+    <div class="col-12 mt-3">
+        {{ form_label(form.nouvelleAttribution.montantRecette) }}
+        {{ form_widget(form.nouvelleAttribution.montantRecette) }}
+    </div>
+    <div class="col-12 form-check mt-3 ms-3">
+        {{ form_widget(form.nouvelleAttribution.statut) }}
+        {{ form_label(form.nouvelleAttribution.statut) }}
+    </div>
+    <div class="col-12 mt-5 mb-5 text-end">
+        {{ form_widget(form) }}
+        <a href="{{ absolute_url(path('app_chauffeur_index')) }}" class="btn btn-outline-success">Annuler</a>
+        <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
+    </div>
+</div>
+
+{{ form_end(form) }}

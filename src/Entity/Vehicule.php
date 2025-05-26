@@ -29,6 +29,9 @@ class Vehicule
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $slug = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $occupe = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,5 +93,17 @@ class Vehicule
             $slugger = new AsciiSlugger();
             $this->slug = strtolower($slugger->slug($this->immatriculation)->toString());
         }
+    }
+
+    public function isOccupe(): ?bool
+    {
+        return $this->occupe;
+    }
+
+    public function setOccupe(?bool $occupe): static
+    {
+        $this->occupe = $occupe;
+
+        return $this;
     }
 }

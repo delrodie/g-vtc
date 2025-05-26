@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block extra_title %}Nouveau chauffeur{% endblock %}
+
+{% block body %}
+    <div class="text-end mt-5">
+        <a href="{{ absolute_url(path('app_chauffeur_index')) }}" class="btn btn-outline-success btn-sm">
+            <i class="bi bi-arrow-90deg-left"></i> Retour à liste
+        </a>
+    </div>
+
+    <h4 class="page-title">Enregistrement des chauffeurs</h4>
+
+    {{ include('chauffeur/_form.html.twig') }}
+{% endblock %}
