@@ -42,6 +42,19 @@ class ConduireRepository extends ServiceEntityRepository
             ->getQuery()->getResult();
     }
 
+    public function findAllVehiculeOccupe()
+    {
+        return $this->queryJoin()
+            ->where('v.occupe = :occupe')
+            ->andWhere('c.statut = :statut')
+            ->orderBy('v.immatriculation', 'ASC')
+            ->setParameters(new ArrayCollection([
+                new Parameter('occupe', true),
+                new Parameter('statut', true)
+            ]))
+            ->getQuery()->getResult();
+    }
+
     public function queryJoin()
     {
         return $this->createQueryBuilder('c')
