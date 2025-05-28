@@ -32,8 +32,18 @@ class RepositoriesService
         return $this->conduireRepository->findAllVehiculeOccupe();
     }
 
+    public function getVehiculeByImmatriculation($immatriculation)
+    {
+        return $this->conduireRepository->findOneByImmatriculation($immatriculation);
+    }
+
     public function getOperationByTypeAndPeriode($type, $dateDebut, $dateFin)
     {
         return $this->portefeuilleRepository->findOperationByTypeAndPeriode($type, $dateDebut, $dateFin);
+    }
+
+    public function getOperationByCode($code)
+    {
+        return $this->portefeuilleRepository->findOneBy(['code' => $code]);
     }
 }

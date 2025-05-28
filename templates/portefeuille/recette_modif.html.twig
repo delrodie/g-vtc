@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block extra_title %}Gestion des recettes{% endblock %}
+
+{% block body %}
+    <div class="text-end mb-5">
+        <a href="{{ absolute_url(path('app_recette_list',{type: 'ENTREE'})) }}" class="btn btn-outline-success btn-sm fw-semibold"><i class="bi bi-list"></i> Liste des recettes</a>
+    </div>
+    <div id="flash-messages" data-controller="flash">
+        {% for type, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ type }} mt-5" style="margin-top: 100px;">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 g-2 portefeuille">
+        <div class="col recette">
+            <div class="card h-100">
+                <form action="{{ absolute_url(path('app_recette_validation',{id: conduire.vehicule.id})) }}" method="post" onsubmit='return confirm("Voulez-vous vraiment ajouter la recette de ce vehicule");'>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="recette-car">
+                                <span style="color: {{ conduire.vehicule.couleur }}"><i class="bi bi-car-front-fill"></i></span>
+                                <div class="ms-2">
+                                    <h5 class="immatriculation">{{ conduire.vehicule.immatriculation }}</h5>
+                                    <small class="text-muted">{{ conduire.vehicule.marque.nom }}</small>
+                                </div>
+                            </div>
+                            {#                                <div class="recette-valeur">30K</div>#}
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <small class="text-muted" style="font-size: .85rem;">Chauffeur: </small> <span class="fw-700" style="text-wrap: nowrap">{{ conduire.chauffeur.nom|title }}</span>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-6 recette-montant">
+                                <input type="integer" name="_recette_montant" class="form-control form-control-sm" required>
+                            </div>
+                            <div class="col-6 recette-date">
+                                <input type="date" name="_recette_date" class="form-control form-control-sm" required>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-6 d-grid">
+                                <a href="{{ absolute_url(path('app_recette_form') )}}" class="btn btn-outline-secondary btn-sm" title="Annuler">Annuler</a>
+                            </div>
+                            <div class="col-6 d-grid">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('recette' ~ conduire.vehicule.id) }}">
+                                <input type="hidden" name="_recette_vehicule" value="{{ conduire.vehicule.id }}">
+                                <button class="btn btn-success btn-sm">Enregistrer</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block header %}
+    <div class="navigation d-flex text-light">
+        <a href="{{ historique ?? absolute_url(path('app_home')) }}" class="ps-4 fs-2 text-light"><i class="bi bi-arrow-left-circle-fill"></i></a>
+        <h2 class="page-title me-auto text-center w-100">Recettes</h2>
+    </div>
+{% endblock %}

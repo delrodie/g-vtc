@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/recette')]
@@ -41,7 +42,7 @@ class RecetteController extends AbstractController
     {
         // Recherche de la periode initiale
         $dateDebut = new \DateTimeImmutable('first day of this month');
-        $dateFin = new \DateTimeImmutable('yesterday');
+        $dateFin = new \DateTimeImmutable('today');
 
         // Affectation de la période requestée
         $reqDatedebut = $request->query->get('date_debut');
@@ -54,6 +55,22 @@ class RecetteController extends AbstractController
         return $this->render('portefeuille/recette_list.html.twig', [
             'recettes' => $recettes
         ]);
+    }
+
+    #[Route('/{immatriculation}/modif', name: 'app_recette_modif')]
+    public function modif(Request $request, $immatriculation)
+    {
+        try {
+            $vehicule = $this->repositoriesService->getVehiculeByImmatriculation($immatriculation);
+        }catch (\Exception $exception){
+            throw new NotFoundHttpException("Le vehicule recherché n'a pas été trouvé");
+        }
+
+        return $this->render('portefeuille/recette_modif.html.twig',[
+            'conduire' => $vehicule,
+            'historique' => $this->utilityService->historiqueNavigation($request)
+        ]);
+
     }
 
     #[Route('/{id}', name: 'app_recette_validation', methods: ['GET', 'POST'])]
@@ -97,5 +114,24 @@ class RecetteController extends AbstractController
         }
 
         return $this->redirectToRoute('app_recette_form',[], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{code}/suppression', name: 'app_recette_suppression', methods: ['POST'] )]
+    public function suppression(Request $request, $code, EntityManagerInterface $entityManager): Response
+    {
+        try {
+            $recette = $this->repositoriesService->getOperationByCode($code);
+        }catch(\Exception $exception){
+            throw new NotFoundHttpException("L'opération recherchée n'a pas été trouvée!");
+        }
+
+        $entityManager->remove($recette);
+        $entityManager->flush();
+
+        $this->addFlash('success',"Félicitations! La recette a été supprimée avec succès!");
+
+        return $this->redirectToRoute('app_recette_list', [
+            'type' => UtilityService::ENTREE,
+        ], Response::HTTP_SEE_OTHER);
     }
 }

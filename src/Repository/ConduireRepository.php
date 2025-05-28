@@ -55,6 +55,16 @@ class ConduireRepository extends ServiceEntityRepository
             ->getQuery()->getResult();
     }
 
+    public function findOneByImmatriculation($immatriculation)
+    {
+        return $this->queryJoin()
+            ->where('v.immatriculation = :immatriculation')
+            ->andWhere('c.statut = :statut')
+            ->setParameter('immatriculation', $immatriculation)
+            ->setParameter('statut', true)
+            ->getQuery()->getOneOrNullResult();
+    }
+
     public function queryJoin()
     {
         return $this->createQueryBuilder('c')
