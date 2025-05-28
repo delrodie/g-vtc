@@ -7,6 +7,7 @@
         <a href="{{ path('app_export_excel', {'type': 'user'}) }}" class="btn btn-outline-success btn-sm"><i class="bi bi-file-earmark-excel"></i> Exporter</a>
         <a href="{{ absolute_url(path('app_recette_form')) }}" class="btn btn-success btn-sm"><i class="bi bi-plus-circle"></i> Ajouter une recette</a>
     </div>
+
     <div id="flash-messages" data-controller="flash">
         {% for type, messages in app.flashes %}
             {% for message in messages %}
@@ -37,7 +38,13 @@
                     <td>{{ recette.vehicule.marque.nom }} - {{ recette.vehicule.immatriculation }}</td>
                     <td class="text-center">{{ recette.montant }}</td>
                     <td class="text-center">
-                        <a href="{{ absolute_url(path('app_recette_suppression',{code: recette.code})) }}" onclick="return confirm('Voulez-vous vraiment spprimer cette opération?');"><i class="bi bi-trash"></i></a>
+                        <a href="{{ absolute_url(path('app_recette_suppression',{code: recette.code})) }}"
+                           data-controller="delete-item"
+                           data-delete-item-url-value="{{ absolute_url(path('app_recette_suppression', {code: recette.code})) }}"
+                           data-delete-item-csrf-token-value="{{ csrf_token('delete' ~ recette.code) }}"
+                        >
+                            <i class="bi bi-trash"></i>
+                        </a>
                     </td>
                 </tr>
             {% endfor %}

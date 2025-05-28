@@ -116,22 +116,22 @@ class RecetteController extends AbstractController
         return $this->redirectToRoute('app_recette_form',[], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{code}/suppression', name: 'app_recette_suppression', methods: ['POST'] )]
+    #[Route('/{code}/suppression', name: 'app_recette_suppression', methods: ['DELETE'] )]
     public function suppression(Request $request, $code, EntityManagerInterface $entityManager): Response
     {
-        try {
-            $recette = $this->repositoriesService->getOperationByCode($code);
-        }catch(\Exception $exception){
-            throw new NotFoundHttpException("L'opération recherchée n'a pas été trouvée!");
+        if ($this->isCsrfTokenValid('delete'.$code, $request->headers->get('X-CSRF-Token'))){
+            $operation = $this->repositoriesService->getOperationByCode($code);
+            if (!$operation){
+                throw $this->createNotFoundException("Aucune opération trouvée!");
+            }
+            $entityManager->remove($operation);
+            $entityManager->flush();
+
+            $this->addFlash('success',"Félicitations! La recette a été supprimée avec succès!");
+
+            return $this->json(['success'=> true]);
         }
 
-        $entityManager->remove($recette);
-        $entityManager->flush();
-
-        $this->addFlash('success',"Félicitations! La recette a été supprimée avec succès!");
-
-        return $this->redirectToRoute('app_recette_list', [
-            'type' => UtilityService::ENTREE,
-        ], Response::HTTP_SEE_OTHER);
+        return $this->json(['success' => false, 'message'=> 'Token CSRF invalide'], Response::HTTP_FORBIDDEN);
     }
 }
