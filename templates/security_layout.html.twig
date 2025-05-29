@@ -3,6 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {%  block meta %}
+        <meta name="keywords" content="G-VTC">
+        <meta name="description" content="Gestion de VTC" />
+        <link rel="canonical" href="{{ absolute_url(path('app_home')) }}" />
+        {#            <link rel="next" href="{{ absolute_url(path('app_home')) }}" />#}
+
+        <meta property="og:locale" content="fr_FR" />
+        <meta property="og:locale:alternate" content="en_US" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="G-VTC" />
+        <meta property="og:description" content="Gestion de VTC" />
+        <meta property="og:url" content="{{ absolute_url(path('app_home')) }}" />
+        <meta property="og:site_name" content="G-VTC" />
+        <meta property="article:modified_time" content="2025-05-29T09:08:30+00:00" />
+        <meta property="og:image" content="{{ absolute_url(asset('images/favico.png')) }}" />
+        <meta property="og:image:type" content="image/svg+xml" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:description" content="Gestion de VTC"/>
+        <meta name="twitter:title" content="G-VTC"/>
+        <meta name="twitter:domain" content="G-VTC"/>
+        <meta name="twitter:image:src" content="{{ absolute_url(asset('images/favico.png')) }}"/>
+    {% endblock %}
+    <link rel="icon" href="{{ absolute_url(asset('images/favico.png')) }}">
     <title>
         {% block title %}G-VTC ::
             {% block extra_title %}{% endblock %}

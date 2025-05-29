@@ -9,7 +9,29 @@
             {% endblock %}
 
         </title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        {%  block meta %}
+            <meta name="keywords" content="G-VTC">
+            <meta name="description" content="Gestion de VTC" />
+            <link rel="canonical" href="{{ absolute_url(path('app_home')) }}" />
+{#            <link rel="next" href="{{ absolute_url(path('app_home')) }}" />#}
+
+            <meta property="og:locale" content="fr_FR" />
+            <meta property="og:locale:alternate" content="en_US" />
+            <meta property="og:type" content="website" />
+            <meta property="og:title" content="G-VTC" />
+            <meta property="og:description" content="Gestion de VTC" />
+            <meta property="og:url" content="{{ absolute_url(path('app_home')) }}" />
+            <meta property="og:site_name" content="G-VTC" />
+            <meta property="article:modified_time" content="2025-05-29T09:08:30+00:00" />
+            <meta property="og:image" content="{{ absolute_url(asset('images/favico.png')) }}" />
+            <meta property="og:image:type" content="image/svg+xml" />
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:description" content="Gestion de VTC"/>
+            <meta name="twitter:title" content="G-VTC"/>
+            <meta name="twitter:domain" content="G-VTC"/>
+            <meta name="twitter:image:src" content="{{ absolute_url(asset('images/favico.png')) }}"/>
+        {% endblock %}
+        <link rel="icon" href="{{ absolute_url(asset('images/favico.png')) }}">
         {% block stylesheets %}
             {% block extra_stylesheets %}{% endblock %}
         {% endblock %}
