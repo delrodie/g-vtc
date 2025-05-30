@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="text-end mb-5">
-        <a href="{{ absolute_url(path('app_recette_list',{type: 'ENTREE'})) }}" class="btn btn-outline-success btn-sm fw-semibold"><i class="bi bi-list"></i> Liste des recettes</a>
+        <a href="{{ absolute_url(path('app_portefeuille_type',{type: 'entree'})) }}" class="btn btn-outline-success btn-sm fw-semibold"><i class="bi bi-list"></i> Liste des recettes</a>
     </div>
     <div id="flash-messages" data-controller="flash">
         {% for type, messages in app.flashes %}

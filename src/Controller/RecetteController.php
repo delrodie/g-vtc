@@ -37,26 +37,6 @@ class RecetteController extends AbstractController
         ]);
     }
 
-    #[Route('/{type}', name: 'app_recette_list', methods: ['GET'])]
-    public function list(Request $request, $type): Response
-    {
-        // Recherche de la periode initiale
-        $dateDebut = new \DateTimeImmutable('first day of this month');
-        $dateFin = new \DateTimeImmutable('today');
-
-        // Affectation de la période requestée
-        $reqDatedebut = $request->query->get('date_debut');
-        $reqDatefin = $request->query->get('date_fin');
-        if ($reqDatedebut) $dateDebut = new \DateTime($reqDatedebut);
-        if ($reqDatefin) $dateFin = new \DateTime($reqDatefin);
-
-        $recettes = $this->repositoriesService->getOperationByTypeAndPeriode(UtilityService::ENTREE, $dateDebut, $dateFin);
-
-        return $this->render('portefeuille/recette_list.html.twig', [
-            'recettes' => $recettes
-        ]);
-    }
-
     #[Route('/{immatriculation}/modif', name: 'app_recette_modif')]
     public function modif(Request $request, $immatriculation)
     {
@@ -108,7 +88,7 @@ class RecetteController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', "La recette du véhicule '{$vehicule->getImmatriculation()}' a été ajoutée avec succès!");
-            return $this->redirectToRoute('app_recette_list',[
+            return $this->redirectToRoute('app_portefeuille_type',[
                 'type' => UtilityService::ENTREE
             ], Response::HTTP_SEE_OTHER);
         }
@@ -116,22 +96,5 @@ class RecetteController extends AbstractController
         return $this->redirectToRoute('app_recette_form',[], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{code}/suppression', name: 'app_recette_suppression', methods: ['DELETE'] )]
-    public function suppression(Request $request, $code, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$code, $request->headers->get('X-CSRF-Token'))){
-            $operation = $this->repositoriesService->getOperationByCode($code);
-            if (!$operation){
-                throw $this->createNotFoundException("Aucune opération trouvée!");
-            }
-            $entityManager->remove($operation);
-            $entityManager->flush();
 
-            $this->addFlash('success',"Félicitations! La recette a été supprimée avec succès!");
-
-            return $this->json(['success'=> true]);
-        }
-
-        return $this->json(['success' => false, 'message'=> 'Token CSRF invalide'], Response::HTTP_FORBIDDEN);
-    }
 }

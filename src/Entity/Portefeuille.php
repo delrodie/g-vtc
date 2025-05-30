@@ -37,6 +37,12 @@ class Portefeuille
     #[ORM\ManyToOne]
     private ?Vehicule $vehicule = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $objet = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -148,5 +154,29 @@ class Portefeuille
         }while($portefeuilleRepository->findOneBy(['code' => $code]));
 
         $this->code = $code;
+    }
+
+    public function getObjet(): ?string
+    {
+        return $this->objet;
+    }
+
+    public function setObjet(?string $objet): static
+    {
+        $this->objet = $objet;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
+
+        return $this;
     }
 }

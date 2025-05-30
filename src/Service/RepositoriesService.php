@@ -38,7 +38,7 @@ class RepositoriesService
     }
 
     public function getOperationByTypeAndPeriode($type, $dateDebut, $dateFin)
-    {
+    { //dd($dateFin);
         return $this->portefeuilleRepository->findOperationByTypeAndPeriode($type, $dateDebut, $dateFin);
     }
 

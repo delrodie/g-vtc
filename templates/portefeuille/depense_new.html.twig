@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block extra_title %}Gestion des dépenses{% endblock %}
+
+{% block body %}
+    <div class="text-end mb-5">
+        <a href="{{ absolute_url(path('app_portefeuille_type',{type: 'SORTIE'})) }}" class="btn btn-outline-success btn-sm fw-semibold"><i class="bi bi-list"></i> Liste des dépenses</a>
+    </div>
+    <div id="flash-messages" data-controller="flash">
+        {% for type, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ type }} mt-5" style="margin-top: 100px;">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+    <div class="row row-cols-1 g-3 portefeuille">
+        <div class="col recette">
+            <div class="card h-100 depense">
+                <form action="{{ absolute_url(path('app_depense_new',{immatriculation: conduire.vehicule.immatriculation})) }}" method="post" onsubmit='return confirm("Voulez-vous vraiment ajouter les depenses de ce vehicule");'>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="recette-car">
+                                <span style="color: {{ conduire.vehicule.couleur }}"><i class="bi bi-car-front-fill"></i></span>
+                                <div class="ms-2">
+                                    <h5 class="immatriculation">{{ conduire.vehicule.immatriculation }}</h5>
+                                    <small class="text-muted">{{ conduire.vehicule.marque.nom }}</small>
+                                </div>
+                            </div>
+                                                            <div class="recette-valeur"><span class="badge bg-success">{{ conduire.chauffeur.nom|title }}</span></div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12 mt-3">
+                                <label for="">Objet</label>
+                                <input type="text" name="_depense_objet" class="form-control form-control-sm" placeholder="L'objet de la dépense" autocomplete="off" required>
+                            </div>
+                            <div class="col-6 recette-montant mt-3">
+                                <label for="">Montant</label>
+                                <input type="integer" name="_depense_montant" class="form-control form-control-sm" placeholder="Le montant de la dépense" autocomplete="off" required>
+                            </div>
+                            <div class="col-6 recette-date mt-3">
+                                <label for="">Date</label>
+                                <input type="date" name="_depense_date" class="form-control form-control-sm" autocomplete="off" required>
+                            </div>
+                            <div class="col-12 mt-3">
+                                <label for="">Description</label>
+                                <textarea name="_depense_description" id="" rows="5" class="form-control form-control-sm"></textarea>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-6 d-grid">
+                                <a href="#" class="btn btn-outline-secondary btn-sm" title="Retour a la liste">Annuler</a>
+                            </div>
+                            <div class="col-6 d-grid">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('depenses' ~ conduire.vehicule.immatriculation) }}">
+                                <input type="hidden" name="_depense_vehicule" value="{{ conduire.vehicule.id }}">
+                                <button class="btn btn-success btn-sm">Enregistrer</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block header %}
+    <div class="navigation d-flex text-light">
+        <a href="{{ historique ?? absolute_url(path('app_home')) }}" class="ps-4 fs-2 text-light"><i class="bi bi-arrow-left-circle-fill"></i></a>
+        <h2 class="page-title me-auto text-center w-100">Depenses</h2>
+    </div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block extra_title %}Gestion des dépenses{% endblock %}
+
+{% block body %}
+    <div class="text-end mb-5">
+        <a href="{{ absolute_url(path('app_portefeuille_type',{type: 'SORTIE'})) }}" class="btn btn-outline-success btn-sm fw-semibold"><i class="bi bi-list"></i> Liste des dépenses</a>
+    </div>
+    <div id="flash-messages" data-controller="flash">
+        {% for type, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ type }} mt-5" style="margin-top: 100px;">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 g-3 portefeuille">
+        {% for liste in listes %}
+                <div class="col mt-3">
+                    <a href="{{ absolute_url(path('app_depense_new', {'immatriculation': liste.vehicule.immatriculation})) }}">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="bi bi-car-front-fill" style="color: {{ liste.vehicule.couleur }}; font-size: 3.5rem;"></i>
+                            </div>
+                            <div class="card-footer text-center">
+                                {{ liste.vehicule.marque.nom}} -  {{ liste.vehicule.immatriculation }}
+                            </div>
+                        </div>
+                    </a>
+                </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+{% block header %}
+    <div class="navigation d-flex text-light">
+        <a href="{{ historique ?? absolute_url(path('app_home')) }}" class="ps-4 fs-2 text-light"><i class="bi bi-arrow-left-circle-fill"></i></a>
+        <h2 class="page-title me-auto text-center w-100">Depenses</h2>
+    </div>
+{% endblock %}

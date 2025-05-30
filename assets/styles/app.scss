@@ -554,6 +554,23 @@ main {
                 color: var(--color-gdark30);
             }
         }
+
+        .depense{
+            input[placeholder]{
+                font-style: italic;
+                font-weight: 400;
+            }
+            .form-control{
+                color: var(--color-gdark60);
+                font-weight: 700;
+            }
+        }
+
+        label{
+            font-style: italic;
+            color: #5e5d5d;
+            font-size: .85rem;
+        }
     }
 
     .connexion{
@@ -561,7 +578,7 @@ main {
         display: flex;
         align-items: center;
         justify-content: center;
-        
+
     }
 }
 

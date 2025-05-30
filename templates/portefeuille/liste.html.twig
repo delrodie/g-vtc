@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block extra_title %}Liste des portefeuilles {% endblock %}
+
+{% block body %}
+    <div class="text-end mb-5">
+        <a href="{{ path('app_export_excel', {'type': 'user'}) }}" class="btn btn-outline-success btn-sm"><i class="bi bi-file-earmark-excel"></i> Exporter</a>
+{#        <a href="{{ absolute_url(path('app_portefeuille_form')) }}" class="btn btn-success btn-sm"><i class="bi bi-plus-circle"></i> Ajouter une portefeuille</a>#}
+    </div>
+
+    <div id="flash-messages" data-controller="flash">
+        {% for type, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ type }} mt-5" style="margin-top: 100px;">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+
+
+    <div class="table-responsive">
+        <table class="table table-hover table-striped text-nowrap">
+            <thead>
+            <tr>
+                <th class="text-center">#</th>
+                <th class="text-center">DATE</th>
+                <th class="text-center">VEHICULE</th>
+                <th class="text-center">MONTANT</th>
+                <th class="text-center">OBJET</th>
+                <th class="text-center">ACTION</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for portefeuille in portefeuilles %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td class="text-center">{{ portefeuille.date|date('Y-m-d') }}</td>
+                    <td>{{ portefeuille.vehicule.marque.nom }} - {{ portefeuille.vehicule.immatriculation }}</td>
+                    <td class="text-center">{{ portefeuille.montant }}</td>
+                    <td class="text-start">{{ portefeuille.objet ?: 'Recette' }}</td>
+                    <td class="text-center">
+                        <a href="{{ absolute_url(path('app_portefeuille_suppression',{code: portefeuille.code})) }}"
+                           data-controller="delete-item"
+                           data-delete-item-url-value="{{ absolute_url(path('app_portefeuille_suppression', {code: portefeuille.code})) }}"
+                           data-delete-item-csrf-token-value="{{ csrf_token('delete' ~ portefeuille.code) }}"
+                        >
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block header %}
+    <div class="navigation d-flex text-light">
+        <a href="{{ historique ?? absolute_url(path('app_home')) }}" class="ps-4 fs-2 text-light"><i class="bi bi-arrow-left-circle-fill"></i></a>
+        <h2 class="page-title me-auto text-center w-100">{{ type ?: 'Porteuille' }}</h2>
+    </div>
+{% endblock %}
+

@@ -430,6 +430,19 @@ main .portefeuille .recette-valeur {
   font-weight: 700;
   color: var(--color-gdark30);
 }
+main .portefeuille .depense input[placeholder] {
+  font-style: italic;
+  font-weight: 400;
+}
+main .portefeuille .depense .form-control {
+  color: var(--color-gdark60);
+  font-weight: 700;
+}
+main .portefeuille label {
+  font-style: italic;
+  color: #5e5d5d;
+  font-size: 0.85rem;
+}
 main .connexion {
   height: 100vh;
   display: flex;
@@ -451,4 +464,6 @@ footer {
 footer a {
   font-size: 1.7rem;
   color: var(--color-gdark60);
-}/*# sourceMappingURL=app.css.map */
+}
+
+/*# sourceMappingURL=app.css.map */
