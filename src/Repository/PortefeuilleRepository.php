@@ -32,6 +32,20 @@ class PortefeuilleRepository extends ServiceEntityRepository
             ->getQuery()->getResult();
     }
 
+    public function findMontantByTypeAndPeriode($type, $dateDebut, $dateFin)
+    {
+        return $this->queyJoin()
+            ->select('SUM(p.montant)')
+            ->where('p.type = :type')
+            ->andWhere('p.date BETWEEN :dateDebut AND :dateFin')
+            ->setParameters(new ArrayCollection([
+                new Parameter('type', $type),
+                new Parameter('dateDebut', $dateDebut),
+                new Parameter('dateFin', $dateFin)
+            ]))
+            ->getQuery()->getSingleScalarResult();
+    }
+
     public function queyJoin()
     {
         return $this->createQueryBuilder('p')

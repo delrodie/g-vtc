@@ -22,26 +22,24 @@ class PortefeuilleController extends AbstractController
     {
     }
 
-    #[Route('/')]
-    public function index(): Response
+    #[Route('/', name: 'app_portefeuille_stats')]
+    public function stats(Request $request): Response
     {
-        return $this->render('portefeuille/index.html.twig');
+        $periode = $this->utilityService->periode($request);
+//        $recette = ;
+        return $this->render('portefeuille/stats.html.twig',[
+            'historique' => $this->utilityService->historiqueNavigation($request),
+            'recette_mois' => $this->repositoriesService->getMontantByTypeAndPeriode(UtilityService::ENTREE, $periode['dateDebut'], $periode['dateFin']),
+            'depense_mois' => $this->repositoriesService->getMontantByTypeAndPeriode(UtilityService::SORTIE, $periode['dateDebut'], $periode['dateFin']),
+        ]);
     }
 
     #[Route('/{type}', name: 'app_portefeuille_type', methods: ['GET'])]
     public function type(Request $request, $type)
     {
-        // Recherche de la periode initiale
-        $dateDebut = (new \DateTimeImmutable('first day of this month'))->format('Y-m-d');
-        $dateFin = (new \DateTimeImmutable('today'))->format('Y-m-d');
+        $periode = $this->utilityService->periode($request);
 
-        // Affectation de la période requestée
-        $reqDatedebut = $request->query->get('date_debut');
-        $reqDatefin = $request->query->get('date_fin');
-        if ($reqDatedebut) $dateDebut = (new \DateTime($reqDatedebut))->format('Y-m-d');
-        if ($reqDatefin) $dateFin = (new \DateTime($reqDatefin))->format('Y-m-d'); //dd($dateDebut);
-
-        $portefeuilles = $this->repositoriesService->getOperationByTypeAndPeriode($type, $dateDebut, $dateFin);
+        $portefeuilles = $this->repositoriesService->getOperationByTypeAndPeriode($type, $periode['dateDebut'], $periode['dateFin']);
 
         return $this->render('portefeuille/liste.html.twig', [
             'portefeuilles' => $portefeuilles,

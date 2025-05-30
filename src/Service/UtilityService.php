@@ -15,4 +15,22 @@ class UtilityService
 
         return $referer;
     }
+
+    public function periode($request): array
+    {
+        // Recherche de la periode initiale
+        $dateDebut = (new \DateTimeImmutable('first day of this month'))->format('Y-m-d');
+        $dateFin = (new \DateTimeImmutable('today'))->format('Y-m-d');
+
+        // Affectation de la période requestée
+        $reqDatedebut = $request->query->get('date_debut');
+        $reqDatefin = $request->query->get('date_fin');
+        if ($reqDatedebut) $dateDebut = (new \DateTime($reqDatedebut))->format('Y-m-d');
+        if ($reqDatefin) $dateFin = (new \DateTime($reqDatefin))->format('Y-m-d');
+
+        return [
+            'dateDebut' => $dateDebut,
+            'dateFin' => $dateFin,
+        ];
+    }
 }

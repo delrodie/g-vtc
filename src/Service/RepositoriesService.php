@@ -46,4 +46,9 @@ class RepositoriesService
     {
         return $this->portefeuilleRepository->findOneBy(['code' => $code]);
     }
+
+    public function getMontantByTypeAndPeriode($type, $dateDebut, $dateFin)
+    {
+        return $this->portefeuilleRepository->findMontantByTypeAndPeriode($type, $dateDebut, $dateFin);
+    }
 }

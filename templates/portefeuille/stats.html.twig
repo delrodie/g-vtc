@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+{% block extra_title %} Mon porteuille {% endblock %}
+{% block body %}
+    <section class="section statistiques">
+        <div class="section-head d-flex justify-content-between align-items-center">
+            <h1 class="section-title">Mois encours</h1>
+            <a href="#" class="section-link">Voir plus...</a>
+        </div>
+
+        <div class="row row-cols-12 g-2">
+            <div class="col mt-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="valeur">{{ recette_mois }}<span> FCFA</span></div>
+                            <div class="icon"><i class="bi bi-piggy-bank"></i></div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+                            <label for="">Recettes</label>
+                            <a href="#" class="details"><i class="bi bi-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col mt-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="valeur">{{  depense_mois }}<span> FCFA</span></div>
+                            <div class="icon"><i class="bi bi-cash-stack"></i></div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+                            <label for="">Dépenses</label>
+                            <a href="#" class="details"><i class="bi bi-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block header %}
+    <div class="navigation d-flex text-light">
+        <a href="{{ historique ?? absolute_url(path('app_home')) }}" class="ps-4 fs-2 text-light"><i class="bi bi-arrow-left-circle-fill"></i></a>
+        <h2 class="page-title me-auto text-center w-100">Portefeuille</h2>
+    </div>
+{% endblock %}
+
