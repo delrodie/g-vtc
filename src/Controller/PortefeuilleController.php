@@ -31,6 +31,8 @@ class PortefeuilleController extends AbstractController
             'historique' => $this->utilityService->historiqueNavigation($request),
             'recette_mois' => $this->repositoriesService->getMontantByTypeAndPeriode(UtilityService::ENTREE, $periode['dateDebut'], $periode['dateFin']),
             'depense_mois' => $this->repositoriesService->getMontantByTypeAndPeriode(UtilityService::SORTIE, $periode['dateDebut'], $periode['dateFin']),
+            'recette_totale' => $this->repositoriesService->getMontantByTypeAndPeriode(UtilityService::ENTREE, '2025-01-01', $periode['dateFin']),
+            'depense_totale' => $this->repositoriesService->getMontantByTypeAndPeriode(UtilityService::SORTIE, '2025-01-01', $periode['dateFin']),
         ]);
     }
 

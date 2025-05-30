@@ -75,7 +75,7 @@ class RecetteController extends AbstractController
             ]);
             if ($verifRecette){
                 $this->addFlash('danger', "Echèc! La recette du vehicule '{$vehicule->getImmatriculation()}' à cette date a déjà été enregistrée.");
-                return $this->redirectToRoute('app_recette_new',[], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_recette_form',[], Response::HTTP_SEE_OTHER);
             }
 
             $recette = new Portefeuille();
