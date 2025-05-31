@@ -33,6 +33,7 @@ class PortefeuilleController extends AbstractController
             'depense_mois' => $this->repositoriesService->getMontantByTypeAndPeriode(UtilityService::SORTIE, $periode['dateDebut'], $periode['dateFin']),
             'recette_totale' => $this->repositoriesService->getMontantByTypeAndPeriode(UtilityService::ENTREE, '2025-01-01', $periode['dateFin']),
             'depense_totale' => $this->repositoriesService->getMontantByTypeAndPeriode(UtilityService::SORTIE, '2025-01-01', $periode['dateFin']),
+            'listes' => []
         ]);
     }
 
@@ -64,6 +65,8 @@ class PortefeuilleController extends AbstractController
         $listes = $reqType
             ? $this->repositoriesService->getOperationByTypeAndPeriode($reqType, $periode['dateDebut'], $periode['dateFin'])
             : $this->repositoriesService->getOperationByPeriode($periode);
+
+        dump($listes);
 
         return $this->render('portefeuille/_liste_operations.html.twig',[
             'listes' => $listes

@@ -1,9 +1,49 @@
-<section
-    id="portefeuille-resultat"
-    data-controller="portefeuille-list"
-    data-portefeuille-list-target="result"
-    class="d-none"
->
-    liste
-</section>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="h4">Liste des opérations</h2>
+    <button type="button"
+            class="btn btn-sm btn-outline-secondary"
+            data-action="portefeuille-list#close">
+        Fermer
+    </button>
+</div>
+
+{% if listes is empty %}
+    <p class="text-muted">Aucune opération trouvée.</p>
+{% else %}
+    <div class="table-responsive">
+        <table class="table table-hover table-striped text-nowrap">
+            <thead>
+            <tr>
+                <th class="text-center">#</th>
+                <th class="text-center">DATE</th>
+                <th class="text-center">VÉHICULE</th>
+                <th class="text-center">MONTANT</th>
+                <th class="text-center">OBJET</th>
+                <th class="text-center">ACTION</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for portefeuille in listes %}
+                <tr>
+                    <td class="text-center">{{ loop.index }}</td>
+                    <td class="text-center">{{ portefeuille.date|date('Y-m-d') }}</td>
+                    <td>{{ portefeuille.vehicule.marque.nom }} - {{ portefeuille.vehicule.immatriculation }}</td>
+                    <td class="text-center">{{ portefeuille.montant|number_format(0, ',', ' ') }} FCFA</td>
+                    <td class="text-start">{{ portefeuille.objet ?: 'Recette' }}</td>
+                    <td class="text-center">
+                        <a href="#"
+                           class="text-danger"
+                           title="Supprimer"
+                           data-controller="delete-item"
+                           data-delete-item-url-value="{{ path('app_portefeuille_suppression', { code: portefeuille.code }) }}"
+                           data-delete-item-csrf-token-value="{{ csrf_token('delete' ~ portefeuille.code) }}">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
 

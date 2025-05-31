@@ -1,37 +1,43 @@
-import { Controller} from '@hotwired/stimulus';
+import { Controller } from '@hotwired/stimulus'
+
 export default class extends Controller {
-    static values={
-        url: String,
-        type: String,
-        periode: String,
-    };
 
-    connect() {
-        this.element.addEventListener('click', this.affichageList.bind(this));
-    }
 
-    disconnect() {
-        this.element.addEventListener('click', this.affichageList.bind(this));
-    }
+    static targets = ["result", "sections"]
+    affichageList(e) {
+        e.preventDefault()
 
-    affichageList(e){
-        e.preventDefault();
-        console.log(this.typeValue);
-        console.log(this.periodeValue);
-        fetch(this.urlValue, {
+        const url = e.currentTarget.dataset.portefeuilleListUrlValue;
+        const type = e.currentTarget.dataset.portefeuilleListTypeValue;
+        const periode = e.currentTarget.dataset.portefeuilleListPeriodeValue;
+
+        console.log({url, type, periode})
+        fetch(url, {
             method: 'POST',
-            headers:{
+            headers: {
                 'Content-Type': 'application/json',
-                'X-Requested-with': 'XMLHttpRequest',
+                'X-Requested-With': 'XMLHttpRequest',
             },
             body: JSON.stringify({
-                type: this.typeValue,
-                periode: this.periodeValue
+                type,
+                periode
             })
         })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data); // ici tu peux gérer l'affichage
-            });
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Erreur réseau")
+                }
+                console.log(response)
+                return response.text() // 👈 car Symfony retourne un fragment HTML
+            })
+            .then(html => {
+                // console.log('HTML reçu :', html);
+                this.resultTarget.innerHTML = html
+
+            })
+            .catch(error => {
+                this.resultTarget.innerHTML = `<div class="alert alert-danger">Erreur : ${error.message}</div>`
+            })
     }
+
 }
