@@ -4,34 +4,34 @@
     <section class="section flot-cars" id="flotCars">
         <div class="section-head d-flex justify-content-between align-items-center">
             <h1 class="section-title">Mes véhicules</h1>
-            <a href="#" class="section-link">Voir plus...</a>
+            {% if vehicules %}
+                <a href="{{ absolute_url(path('app_vehicule_index')) }}" class="btn btn-outline-success btn-sm">
+                    <i class="bi bi-list"></i> Liste des vehicules
+                </a>
+            {% else %}
+                <a href="{{ absolute_url(path('app_vehicule_new')) }}" class="btn btn-success btn-sm">
+                    <i class="bi bi-plus"></i> Ajouter un vehicule
+                </a>
+            {% endif %}
+
         </div>
 
         <div class="row row-cols-2 g-3">
-            <div class="col mt-3">
-                <a href="#">
-                    <div class="card h-100">
-                        <div class="card-body text-center">
-                            <i class="bi bi-car-front-fill" style="color: red; font-size: 3.5rem;"></i>
+            {% for liste in vehicules|slice(0,2) %}
+                <div class="col mt-3">
+                    <a href="#">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="bi bi-car-front-fill" style="color: {{ liste.vehicule.couleur }}; font-size: 3.5rem;"></i>
+                            </div>
+                            <div class="card-footer text-center">
+                                {{ liste.vehicule.marque.nom }} - {{ liste.vehicule.immatriculation }}
+                            </div>
                         </div>
-                        <div class="card-footer text-center">
-                            Immatriculation
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col mt-3">
-                <a href="#">
-                    <div class="card h-100">
-                        <div class="card-body text-center">
-                            <i class="bi bi-car-front-fill" style="color: blue; font-size: 3.5rem;"></i>
-                        </div>
-                        <div class="card-footer text-center">
-                            Immatriculation
-                        </div>
-                    </div>
-                </a>
-            </div>
+                    </a>
+                </div>
+            {% endfor %}
+
         </div>
 
     </section>
@@ -39,35 +39,55 @@
     <section class="section statistiques">
         <div class="section-head d-flex justify-content-between align-items-center">
             <h1 class="section-title">Mois encours</h1>
-            <a href="#" class="section-link">Voir plus...</a>
+            <a href="{{ absolute_url(path('app_portefeuille_stats')) }}" class="btn btn-outline-success btn-sm">
+                <i class="bi bi-list"></i> Voir le portefeuille
+            </a>
         </div>
 
         <div class="row row-cols-12 g-2">
             <div class="col mt-3">
-                <div class="card">
+                <div class="card h-100">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
-                            <div class="valeur">750K <span>FCFA</span></div>
+                            <div class="valeur">{{ recette_mois|montant_abbr }}<span> FCFA</span></div>
                             <div class="icon"><i class="bi bi-piggy-bank"></i></div>
                         </div>
                         <div class="d-flex justify-content-between align-items-center mt-4">
-                            <label for="">Recettes</label>
-                            <a href="#" class="details"><i class="bi bi-arrow-right"></i></a>
+                            <label>Recettes</label>
+                            <a
+                                href="#"
+                                data-action="portefeuille-list#affichageList"
+                                data-portefeuille-list-url-value="{{ path('app_portefeuille_liste') }}"
+                                data-portefeuille-list-type-value="entree"
+                                data-portefeuille-list-periode-value="mois_encours"
+                                class="details"
+                            >
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="col mt-3">
-                <div class="card">
+                <div class="card h-100">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
-                            <div class="valeur">150K <span>FCFA</span></div>
+                            <div class="valeur">{{ depense_mois|montant_abbr }}<span> FCFA</span></div>
                             <div class="icon"><i class="bi bi-cash-stack"></i></div>
                         </div>
                         <div class="d-flex justify-content-between align-items-center mt-4">
-                            <label for="">Dépenses</label>
-                            <a href="#" class="details"><i class="bi bi-arrow-right"></i></a>
+                            <label>Dépenses</label>
+                            <a
+                                href="#"
+                                data-action="portefeuille-list#affichageList"
+                                data-portefeuille-list-url-value="{{ path('app_portefeuille_liste') }}"
+                                data-portefeuille-list-type-value="sortie"
+                                data-portefeuille-list-periode-value="mois_encours"
+                                class="details"
+                            >
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
