@@ -42,6 +42,11 @@ class RepositoriesService
         return $this->portefeuilleRepository->findOperationByTypeAndPeriode($type, $dateDebut, $dateFin);
     }
 
+    public function getOperationByPeriode($periode)
+    {
+        return $this->portefeuilleRepository->findOperationByPeriode($periode);
+    }
+
     public function getOperationByCode($code)
     {
         return $this->portefeuilleRepository->findOneBy(['code' => $code]);

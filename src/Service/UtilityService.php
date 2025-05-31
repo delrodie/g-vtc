@@ -16,7 +16,7 @@ class UtilityService
         return $referer;
     }
 
-    public function periode($request): array
+    public function periode($request, bool $global = false): array
     {
         // Recherche de la periode initiale
         $dateDebut = (new \DateTimeImmutable('first day of this month'))->format('Y-m-d');
@@ -27,6 +27,10 @@ class UtilityService
         $reqDatefin = $request->query->get('date_fin');
         if ($reqDatedebut) $dateDebut = (new \DateTime($reqDatedebut))->format('Y-m-d');
         if ($reqDatefin) $dateFin = (new \DateTime($reqDatefin))->format('Y-m-d');
+
+        if ($global){
+            $dateDebut = '2025-01-01';
+        }
 
         return [
             'dateDebut' => $dateDebut,

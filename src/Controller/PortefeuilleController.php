@@ -50,6 +50,26 @@ class PortefeuilleController extends AbstractController
         ]);
     }
 
+    #[Route('/liste', name: 'app_portefeuille_liste', methods: ['POST'])]
+    public function liste(Request $request)
+    {
+        $data = json_decode($request->getContent(), true) ; //dump($data);
+        $reqType = $data['type'] ?? null;
+        $reqPeriode = $data['periode'] ?? null;
+
+        $periode = $reqPeriode === 'global'
+            ? $this->utilityService->periode($request, true)
+            :  $this->utilityService->periode($request);
+
+        $listes = $reqType
+            ? $this->repositoriesService->getOperationByTypeAndPeriode($reqType, $periode['dateDebut'], $periode['dateFin'])
+            : $this->repositoriesService->getOperationByPeriode($periode);
+
+        return $this->render('portefeuille/_liste_operations.html.twig',[
+            'listes' => $listes
+        ]);
+    }
+
     #[Route('/{code}/suppression', name: 'app_portefeuille_suppression', methods: ['DELETE'] )]
     public function suppression(Request $request, $code, EntityManagerInterface $entityManager): Response
     {

@@ -32,6 +32,18 @@ class PortefeuilleRepository extends ServiceEntityRepository
             ->getQuery()->getResult();
     }
 
+    public function findOperationByPeriode(array $periode)
+    {
+        return $this->queyJoin()
+            ->where('p.date BETWEEN :dateDebut AND :dateFin')
+            ->orderBy('p.date', 'DESC')
+            ->setParameters(new ArrayCollection([
+                new Parameter('dateDebut', $periode['dateDebut']),
+                new Parameter('dateFin', $periode['dateFin'])
+            ]))
+            ->getQuery()->getResult();
+    }
+
     public function findMontantByTypeAndPeriode($type, $dateDebut, $dateFin)
     {
         return $this->queyJoin()
