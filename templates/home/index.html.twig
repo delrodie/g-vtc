@@ -97,17 +97,13 @@
 
     <section class="section graphismes">
         <div class="section-head d-flex justify-content-between align-items-center">
-            <h1 class="section-title">Graphismes</h1>
-            <a href="#" class="section-link">Voir plus...</a>
+            <h1 class="section-title">Statistiques {{ annee }}</h1>
+{#            <a href="#" class="section-link">Voir plus...</a>#}
         </div>
 
         <div class="row">
             <div class="col mt-3">
-                <div class="card">
-                    <div class="card-body">
-                        <canvas id="myChart"></canvas>
-                    </div>
-                </div>
+                {{ render(url('app_chartjs')) }}
             </div>
 
         </div>

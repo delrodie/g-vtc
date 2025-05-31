@@ -37,4 +37,9 @@ class UtilityService
             'dateFin' => $dateFin,
         ];
     }
+
+    public function chartData(?string $stype)
+    {
+//        for (i)
+    }
 }

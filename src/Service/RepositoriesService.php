@@ -56,4 +56,23 @@ class RepositoriesService
     {
         return $this->portefeuilleRepository->findMontantByTypeAndPeriode($type, $dateDebut, $dateFin);
     }
+
+    public function getMontantMensuelByTypeAndAnnee($type, $annee = null)
+    {
+        if (!$annee) $annee = (new \DateTime())->format('Y');
+        $montants = $this->portefeuilleRepository->findMontantMensuelByTypeAndAnnee($type, $annee);
+
+        return $this->genererTableauMensuel($montants);
+    }
+
+    private function genererTableauMensuel(array $resultats): array
+    {
+        $data = array_fill(1, 12, 0);
+        foreach ($resultats as $row){
+            $mois = (int) $row['mois'];
+            $data[$mois] = (int)$row['montant'];
+        }
+
+        return array_values($data);
+    }
 }

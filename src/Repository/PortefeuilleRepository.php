@@ -58,6 +58,29 @@ class PortefeuilleRepository extends ServiceEntityRepository
             ->getQuery()->getSingleScalarResult();
     }
 
+    public function findMontantMensuelByTypeAndAnnee(?string $type, ?string $annee): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "
+            SELECT DATE_FORMAT(p.date, '%m') AS mois, SUM(p.montant) AS montant
+            FROM portefeuille p
+            LEFT JOIN vehicule v ON p.vehicule_id = v.id
+            WHERE YEAR(p.date) = :annee AND p.type = :type
+            GROUP BY mois
+            ORDER BY mois ASC
+        ";
+
+        $stmt = $conn->prepare($sql);
+        $result = $stmt->executeQuery([
+            'annee' => $annee,
+            'type' => $type,
+        ]);
+
+        return $result->fetchAllAssociative();
+    }
+
+
     public function queyJoin()
     {
         return $this->createQueryBuilder('p')
