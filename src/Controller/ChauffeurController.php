@@ -7,6 +7,7 @@ use App\Entity\Conduire;
 use App\Form\ChauffeurForm;
 use App\Repository\ChauffeurRepository;
 use App\Service\RepositoriesService;
+use App\Service\UtilityService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,15 +19,17 @@ final class ChauffeurController extends AbstractController
 {
     public function __construct(
         private RepositoriesService $repositoriesService,
+        private UtilityService $utilityService,
     )
     {
     }
 
     #[Route(name: 'app_chauffeur_index', methods: ['GET'])]
-    public function index(ChauffeurRepository $chauffeurRepository): Response
+    public function index(Request $request, ChauffeurRepository $chauffeurRepository): Response
     {
         return $this->render('chauffeur/index.html.twig', [
             'chauffeurs' => $chauffeurRepository->findAll(),
+            'historique' => $this->utilityService->historiqueNavigation($request)
         ]);
     }
 
@@ -73,18 +76,20 @@ final class ChauffeurController extends AbstractController
         return $this->render('chauffeur/new.html.twig', [
             'chauffeur' => $chauffeur,
             'form' => $form,
+            'historique' => $this->utilityService->historiqueNavigation($request)
         ]);
     }
 
     #[Route('/{id}', name: 'app_chauffeur_show', methods: ['GET'])]
-    public function show(Chauffeur $chauffeur): Response
+    public function show(Request $request, Chauffeur $chauffeur): Response
     {
         $conduire = $this->repositoriesService->getVehiculeByChauffeur($chauffeur->getId());
         //dd($vehicule);
         return $this->render('chauffeur/show.html.twig', [
             'chauffeur' => $chauffeur,
             'conduire' => $conduire,
-            'historiques' => $this->repositoriesService->getAllVehiculesByChauffeur($chauffeur->getId())
+            'historiques' => $this->repositoriesService->getAllVehiculesByChauffeur($chauffeur->getId()),
+            'historique' => $this->utilityService->historiqueNavigation($request)
         ]);
     }
 
@@ -179,6 +184,7 @@ final class ChauffeurController extends AbstractController
         return $this->render('chauffeur/edit.html.twig', [
             'chauffeur' => $chauffeur,
             'form' => $form,
+            'historique' => $this->utilityService->historiqueNavigation($request)
         ]);
     }
 
@@ -191,10 +197,5 @@ final class ChauffeurController extends AbstractController
         }
 
         return $this->redirectToRoute('app_chauffeur_index', [], Response::HTTP_SEE_OTHER);
-    }
-
-    private function verifStatutVehicule($vehicule)
-    {
-
     }
 }

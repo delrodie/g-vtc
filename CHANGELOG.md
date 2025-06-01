@@ -12,16 +12,27 @@ et ce projet suit le versionnement sémantique [SemVer](https://semver.org/lang/
 ### A ajouter
 - Ajout du profil User
 - Ajout du menu paramtres
+- Pagination et filtre des tableaux
+- Exportation au format Excel les données
+- Rappel d'enregistrement de recettes quotidiennes
+- Multiple recherches
 
 ### A modifier
-- Mise a jour de l'affichage des infirmations du cards de vehicule index
+-
+
+---
+# [v1.3.1] - 2025-06-01
+### Modifié
+- Integration du logo dans le formulaire de connexion
 - Correction du headers des pages secondaires
 - Correction de l'affichage du bouton dans chauffeur new
 - Correction du label mois dans ChartJs
 - Correction de l'affichage de roles utilisateurs
 - Suppression du menu affectation dans parametres
+- Mise a jour de l'affichage des informations du cards de vehicule index
 
----
+
+
 # [v1.3.0] - 2025-05-31
 ### Ajouté
 - Gestion des stats

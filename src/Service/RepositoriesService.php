@@ -65,6 +65,16 @@ class RepositoriesService
         return $this->genererTableauMensuel($montants);
     }
 
+    public function getMontantByTypeAndVehicule($type, $vehicule)
+    {
+        return $this->portefeuilleRepository->findmontantByTypeAndVehicule($type, $vehicule);
+    }
+
+    public function getMontantByTypeVehiculeAndPeriode($type, $vehicule, $periode)
+    {
+        return $this->portefeuilleRepository->findMontantByTypeVehiculeAndPeriode($type, $vehicule, $periode);
+    }
+
     private function genererTableauMensuel(array $resultats): array
     {
         $data = array_fill(1, 12, 0);

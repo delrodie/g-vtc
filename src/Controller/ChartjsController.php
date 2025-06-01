@@ -26,7 +26,7 @@ class ChartjsController extends AbstractController
         $depense = $this->repositoriesService->getMontantMensuelByTypeAndAnnee('sortie');
         $chart = $chartBuilder->createChart(Chart::TYPE_BAR);
         $chart->setData([
-            'labels' => ['Jan', 'Fev', 'Mars', 'Avr', 'Juin', 'Juil', 'Aout', 'Sep', 'Oct', 'Nov', 'Dec'],
+            'labels' => ['Jan', 'Fev', 'Mars', 'Avr', 'Mai', 'Juin', 'Juil', 'Aout', 'Sep', 'Oct', 'Nov', 'Dec'],
             'datasets' => [
                 [
                     'label' => 'Recettes',

@@ -80,6 +80,35 @@ class PortefeuilleRepository extends ServiceEntityRepository
         return $result->fetchAllAssociative();
     }
 
+    public function findMontantByTypeAndVehicule($type, $vehicule)
+    {
+        return $this->queyJoin()
+            ->select('SUM(p.montant)')
+            ->where('p.type = :type')
+            ->andWhere('v.immatriculation = :vehicule')
+            ->setParameters(new ArrayCollection([
+                new Parameter('type', $type),
+                new Parameter('vehicule', $vehicule),
+            ]))
+            ->getQuery()->getSingleScalarResult();
+    }
+
+    public function findMontantByTypeVehiculeAndPeriode($type, $vehicule, $periode)
+    {
+        return $this->queyJoin()
+            ->select('SUM(p.montant)')
+            ->where('p.type = :type')
+            ->andWhere('v.immatriculation = :vehicule')
+            ->andWhere('p.date BETWEEN :dateDebut AND :dateFin')
+            ->setParameters(new ArrayCollection([
+                new Parameter('type', $type),
+                new Parameter('vehicule', $vehicule),
+                new Parameter('dateDebut', $periode['dateDebut']),
+                new Parameter('dateFin', $periode['dateFin'])
+            ]))
+            ->getQuery()->getSingleScalarResult();
+    }
+
 
     public function queyJoin()
     {

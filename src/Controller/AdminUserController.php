@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserForm;
 use App\Repository\UserRepository;
+use App\Service\UtilityService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,16 +17,18 @@ use Symfony\Component\Routing\Attribute\Route;
 final class AdminUserController extends AbstractController
 {
     public function __construct(
-        private UserPasswordHasherInterface $passwordHasher
+        private UserPasswordHasherInterface $passwordHasher,
+        private UtilityService $utilityService,
     )
     {
     }
 
     #[Route(name: 'app_admin_user_index', methods: ['GET'])]
-    public function index(UserRepository $userRepository): Response
+    public function index(Request $request, UserRepository $userRepository): Response
     {
         return $this->render('admin_user/index.html.twig', [
             'users' => $userRepository->findAll(),
+            'historique' => $this->utilityService->historiqueNavigation($request)
         ]);
     }
 

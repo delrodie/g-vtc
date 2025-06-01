@@ -5,7 +5,7 @@
 {% block body %}
 
     <div class="text-end mt-3" data-controller="header">
-        <a href="{{ absolute_url(path('app_vehicule_index')) }}" class="text-success fw-semibold fst-italic"><i class="bi bi-list-ul"></i> Voir la
+        <a href="{{ absolute_url(path('app_vehicule_index')) }}" class="btn btn-outline-success btn-sm"><i class="bi bi-list-ul"></i> Voir la
             liste...</a>
     </div>
 
@@ -14,4 +14,10 @@
     {{ include('vehicule/_form.html.twig', {'button_label': 'Modifier'}) }}
     {{ include('vehicule/_delete_form.html.twig') }}
 
+{% endblock %}
+{% block header %}
+    <div class="navigation d-flex text-light">
+        <a href="{{ historique ?? absolute_url(path('app_home')) }}" class="ps-4 fs-2 text-light"><i class="bi bi-arrow-left-circle-fill"></i></a>
+        <h2 class="page-title me-auto text-center w-100">Vehicule</h2>
+    </div>
 {% endblock %}

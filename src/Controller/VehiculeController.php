@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Vehicule;
 use App\Form\VehiculeForm;
 use App\Repository\VehiculeRepository;
+use App\Service\UtilityService;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,16 +18,18 @@ use Symfony\Component\Routing\Attribute\Route;
 final class VehiculeController extends AbstractController
 {
     public function __construct(
-        private VehiculeRepository $vehiculeRepository
+        private VehiculeRepository $vehiculeRepository,
+        private UtilityService $utilityService
     )
     {
     }
 
     #[Route(name: 'app_vehicule_index', methods: ['GET'])]
-    public function index(VehiculeRepository $vehiculeRepository): Response
+    public function index(Request $request, VehiculeRepository $vehiculeRepository): Response
     {
         return $this->render('vehicule/index.html.twig', [
             'vehicules' => $vehiculeRepository->getAllVehicule(),
+            'historique' => $this->utilityService->historiqueNavigation($request)
         ]);
     }
 
@@ -55,15 +58,17 @@ final class VehiculeController extends AbstractController
         return $this->render('vehicule/new.html.twig', [
             'vehicule' => $vehicule,
             'form' => $form,
+            'historique' => $this->utilityService->historiqueNavigation($request)
         ]);
     }
 
     #[Route('/{slug}', name: 'app_vehicule_show', methods: ['GET'])]
-    public function show($slug): Response
+    public function show(Request $request, $slug): Response
     {
 
         return $this->render('vehicule/show.html.twig', [
             'vehicule' => $this->getVehicule($slug),
+            'historique' => $this->utilityService->historiqueNavigation($request)
         ]);
     }
 
@@ -91,6 +96,7 @@ final class VehiculeController extends AbstractController
         return $this->render('vehicule/edit.html.twig', [
             'vehicule' => $vehicule,
             'form' => $form,
+            'historique' => $this->utilityService->historiqueNavigation($request)
         ]);
     }
 

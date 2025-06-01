@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="text-end">
-        <a href="{{ absolute_url(path('app_vehicule_new')) }}" class="text-success fw-semibold fst-italic"><i class="bi bi-plus-circle"></i> Ajouter un
+        <a href="{{ absolute_url(path('app_vehicule_new')) }}" class="btn btn-outline-success btn-sm"><i class="bi bi-plus-circle"></i> Ajouter un
             véhicule...</a>
     </div>
 
@@ -38,11 +38,11 @@
                         </div>
                         <div class="row row-cols-2 text-center finances">
                             <div class="col">
-                                <small>Rec. </small><span class="badge text-bg-secondary value">1350K</span>
+                                <small>Rec. </small><span class="badge text-bg-secondary value">{{ vehicule.immatriculation|recette_by_vehicule|montant_abbr }}</span>
 
                             </div>
                             <div class="col">
-                                <small>Dép.</small> <span class="badge text-bg-secondary">750K</span>
+                                <small>Dép.</small> <span class="badge text-bg-secondary">{{ vehicule.immatriculation|depense_by_vehicule|montant_abbr }}</span>
 
                             </div>
                         </div>
@@ -60,4 +60,9 @@
         {% endfor %}
     </div>
 {% endblock %}
-
+{% block header %}
+    <div class="navigation d-flex text-light">
+        <a href="{{ historique ?? absolute_url(path('app_home')) }}" class="ps-4 fs-2 text-light"><i class="bi bi-arrow-left-circle-fill"></i></a>
+        <h2 class="page-title me-auto text-center w-100">Vehicule</h2>
+    </div>
+{% endblock %}

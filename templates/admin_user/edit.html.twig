@@ -15,3 +15,9 @@
 
     {{ include('admin_user/_delete_form.html.twig') }}
 {% endblock %}
+{% block header %}
+    <div class="navigation d-flex text-light">
+        <a href="{{ historique ?? absolute_url(path('app_home')) }}" class="ps-4 fs-2 text-light"><i class="bi bi-arrow-left-circle-fill"></i></a>
+        <h2 class="page-title me-auto text-center w-100">Utilisateurs</h2>
+    </div>
+{% endblock %}

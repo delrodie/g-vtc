@@ -6,7 +6,10 @@
     <div class="connexion">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title text-center">Connexion</h5>
+                <div class="text-center">
+                    <img src="{{ absolute_url(asset('images/logo.png')) }}" alt="" class="img-fluid">
+                </div>
+                <h4 class="card-title text-center text-uppercase fw-bold mt-3" style="">Connexion</h4>
                 <form method="post" class="form">
                     {% if error %}
                         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>

@@ -66,7 +66,7 @@ class PortefeuilleController extends AbstractController
             ? $this->repositoriesService->getOperationByTypeAndPeriode($reqType, $periode['dateDebut'], $periode['dateFin'])
             : $this->repositoriesService->getOperationByPeriode($periode);
 
-        dump($listes);
+//        dump($listes);
 
         return $this->render('portefeuille/_liste_operations.html.twig',[
             'listes' => $listes

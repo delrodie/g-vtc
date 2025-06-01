@@ -12,7 +12,7 @@
         <div class="row row-cols-1 row-cols-sm-2 g-4 car mt-3 mb-5 page-chauffeur">
             {% for chauffeur in chauffeurs %}
                 <div class="col">
-                    <div class="card">
+                    <div class="card h-100">
                         <div class="card-body">
                             <div class="identite d-flex justify-content-between align-items-center">
                                 <div class="avatar d-flex justify-content-center align-items-center">
@@ -27,7 +27,7 @@
                                 <div class="contact">
                                     <span><a href="#" class="contact-link"><i class="bi bi-wechat"></i></a></span>
 
-                                    <span><a href="#" class="contact-link"><i
+                                    <span><a href="tel:{{ chauffeur.telephone }}" class="contact-link"><i
                                                 class="bi bi-telephone-fill"></i></a></span>
 
                                 </div>
@@ -56,4 +56,10 @@
         </div>
     </div>
 
+{% endblock %}
+{% block header %}
+    <div class="navigation d-flex text-light">
+        <a href="{{ historique ?? absolute_url(path('app_home')) }}" class="ps-4 fs-2 text-light"><i class="bi bi-arrow-left-circle-fill"></i></a>
+        <h2 class="page-title me-auto text-center w-100">Chauffeur</h2>
+    </div>
 {% endblock %}
